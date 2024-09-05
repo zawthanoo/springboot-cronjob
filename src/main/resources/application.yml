@@ -1,0 +1,52 @@
+management.endpoint.health.probes.enabled: true
+management.health.livenessState.enabled: true
+management.health.readinessState.enabled: true
+
+server:
+  port: 8888
+  servlet:
+    contextPath: /demo
+  jackson:
+    date-format: yyyy-MM-dd
+
+spring.main.allow-bean-definition-overriding: true
+
+# --------------------------------------------------
+# CORS Config
+# --------------------------------------------------
+corsConfig:
+  allow-origin: "*"
+  allow-credentials: true 
+  allow-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+  allow-headers: Authorization,Access-Control-Allow-Origin,Content-Type,User-Account,sessionID,X-XSS-Protection,X-Content-Type-Options,Cache-Control,Pragma,Expires,X-Frame-Options,Content-Security-Policy
+  expose-headers: Authorization,Content-Disposition
+
+# --------------------------------------------------
+# logging
+# --------------------------------------------------
+logging.level: DEBUG
+logging.level.root: INFO
+logging.level.org.apache: ERROR
+logging.level.org.springframework: ERROR
+logging.level.org.springframework.jdbc.core.JdbcTemplate: DEBUG
+#logging.file.name: ./log/springboot-cronjob.log
+#logging.file.name=/home/jrpabg1/log/springboot-cronjob.log
+#logging.pattern.file: "[%d{yyyy-MM-dd HH:mm:ss, Asia/Singapore}][%-5level][%X{service}][%X{version}][%X{controller}][%X{method}][%X{x-forwarded-for}][%X{user-account}][%X{session-id}][%X{activity-id}][%-40.40logger{39}] : %msg%n"
+logging.pattern.console: "[%d{yyyy-MM-dd HH:mm:ss, Asia/Singapore}][%-5level][%X{service}][%X{version}][%X{controller}][%X{method}][%X{x-forwarded-for}][%X{user-account}][%X{session-id}][%X{activity-id}][%-40.40logger{39}] : %msg%n"
+
+
+# --------------------------------------------------
+# Cron Job Cofnig
+# --------------------------------------------------
+cronjob:
+  taskDefinitionList:
+    - taskId: 0f16c9e0-ce03-4a5d-9e2d-f156c179d1cf
+      taskName: Job-1
+      cronExp: '*/5 * * * * *'
+      apiUrl: http://every5sec.com
+      param: '{"param1": "Every 5 sec"}'
+    - taskId: 97388a74-ad6b-470b-bf46-08bca3c778cb
+      taskName: Job-2
+      cronExp: '*/10 * * * * *'
+      apiUrl: http://every10sec.com
+      param: '{"param1": "Every 10 sec"}'
